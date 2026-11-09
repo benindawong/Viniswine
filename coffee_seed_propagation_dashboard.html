@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือการเพาะเมล็ดกาแฟอย่างละเอียด - Coffee Propagation Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Prompt & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        coffee: {
+                            50: '#fdfbf7',
+                            100: '#f7f2e9',
+                            200: '#eee3d2',
+                            300: '#e1cdb2',
+                            400: '#cfad89',
+                            500: '#be8c64',
+                            600: '#b07753',
+                            700: '#925e43',
+                            800: '#774c3b',
+                            900: '#613f33',
+                            950: '#34201a',
+                        },
+                        forest: {
+                            50: '#f2f9f4',
+                            100: '#dfefded',
+                            200: '#c2e3c7',
+                            300: '#97d0a1',
+                            400: '#67b474',
+                            500: '#449853',
+                            600: '#347c42',
+                            700: '#2b6236',
+                            800: '#254f2d',
+                            900: '#204227',
+                            950: '#0d2413',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Prompt', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f8f6f0;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .active-tab {
+            background-color: #2b6236 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(43, 98, 54, 0.25);
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-gradient-to-r from-forest-900 via-forest-800 to-coffee-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center border border-amber-400/30 text-amber-300">
+                        <i class="fa-solid fa-seedling text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight text-amber-100 sm:text-xl">Coffee Master Propagation</h1>
+                        <p class="text-xs text-emerald-200/80 hidden sm:block">คู่มือและแดชบอร์ดบริหารจัดการเพาะเมล็ดกาแฟอย่างละเอียด</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex space-x-1 text-sm font-medium">
+                    <button onclick="switchTab('overview')" id="nav-overview" class="nav-btn px-3 py-2 rounded-lg transition-all active-tab">
+                        <i class="fa-solid fa-chart-pie mr-1.5"></i>ภาพรวม
+                    </button>
+                    <button onclick="switchTab('stages')" id="nav-stages" class="nav-btn px-3 py-2 rounded-lg text-emerald-100 hover:bg-white/10 transition-all">
+                        <i class="fa-solid fa-list-check mr-1.5"></i>5 ขั้นตอนเพาะ
+                    </button>
+                    <button onclick="switchTab('timeline')" id="nav-timeline" class="nav-btn px-3 py-2 rounded-lg text-emerald-100 hover:bg-white/10 transition-all">
+                        <i class="fa-solid fa-timeline mr-1.5"></i>ระยะการเติบโต
+                    </button>
+                    <button onclick="switchTab('calculator')" id="nav-calculator" class="nav-btn px-3 py-2 rounded-lg text-emerald-100 hover:bg-white/10 transition-all">
+                        <i class="fa-solid fa-calculator mr-1.5"></i>คำนวณวัสดุ
+                    </button>
+                    <button onclick="switchTab('checklist')" id="nav-checklist" class="nav-btn px-3 py-2 rounded-lg text-emerald-100 hover:bg-white/10 transition-all">
+                        <i class="fa-solid fa-square-check mr-1.5"></i>Checklist & Do's
+                    </button>
+                </nav>
+
+                <!-- Quick Action Header Badge -->
+                <div class="flex items-center space-x-2">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-200 border border-amber-400/30">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 mr-1.5 animate-pulse"></span>
+                        คู่มือระดับมืออาชีพ
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation Bar -->
+        <div class="md:hidden bg-forest-950/80 px-2 py-2 flex overflow-x-auto gap-1 text-xs custom-scrollbar">
+            <button onclick="switchTab('overview')" id="mobile-nav-overview" class="mobile-nav-btn whitespace-nowrap px-3 py-1.5 rounded-md active-tab">ภาพรวม</button>
+            <button onclick="switchTab('stages')" id="mobile-nav-stages" class="mobile-nav-btn whitespace-nowrap px-3 py-1.5 rounded-md text-emerald-100">5 ขั้นตอนเพาะ</button>
+            <button onclick="switchTab('timeline')" id="mobile-nav-timeline" class="mobile-nav-btn whitespace-nowrap px-3 py-1.5 rounded-md text-emerald-100">ระยะการเติบโต</button>
+            <button onclick="switchTab('calculator')" id="mobile-nav-calculator" class="mobile-nav-btn whitespace-nowrap px-3 py-1.5 rounded-md text-emerald-100">คำนวณวัสดุ</button>
+            <button onclick="switchTab('checklist')" id="mobile-nav-checklist" class="mobile-nav-btn whitespace-nowrap px-3 py-1.5 rounded-md text-emerald-100">Checklist</button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+        <!-- ================= SECTION 1: OVERVIEW DASHBOARD ================= -->
+        <section id="tab-overview" class="tab-content space-y-6">
+            
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden shadow-xl bg-forest-900 text-white">
+                <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1600&auto=format&fit=crop" 
+                     alt="Coffee Plant Nursery" 
+                     class="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-overlay">
+                <div class="relative z-10 p-6 sm:p-8 md:p-10 max-w-3xl space-y-4">
+                    <span class="inline-block px-3 py-1 bg-amber-500/30 text-amber-200 border border-amber-400/40 rounded-full text-xs font-medium backdrop-blur-sm">
+                        <i class="fa-solid fa-leaf mr-1"></i> Coffee Nursery Standard Operating Procedure
+                    </span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                        ระบบบริหารการเพาะกล้ากาแฟคุณภาพสูง
+                    </h2>
+                    <p class="text-slate-200 text-sm sm:text-base font-light leading-relaxed">
+                        ควบคุมมาตรฐานตั้งแต่การคัดเลือกผลสุก Red Cherry, การทดสอบลอยน้ำ, การงอกในทรายหยาบ จนถึงระยะปีกผีเสื้อและการย้ายลงถุงเพาะเพื่ออัตราการรอดสูงสุด 95%+
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('stages')" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium shadow-md transition-all flex items-center">
+                            เริ่มต้นดูขั้นตอนเพาะ <i class="fa-solid fa-arrow-right ml-2 text-xs"></i>
+                        </button>
+                        <button onclick="switchTab('timeline')" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium backdrop-blur-sm border border-white/20 transition-all">
+                            ดูไทม์ไลน์การงอก
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metric Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <!-- Metric 1 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm border border-emerald-100 hover:shadow-md transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-forest-700 uppercase tracking-wider">ระยะเวลาการงอก</span>
+                        <div class="w-9 h-9 rounded-xl bg-emerald-100 text-forest-700 flex items-center justify-center">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="text-2xl sm:text-3xl font-bold text-slate-800">60 - 90 <span class="text-sm font-normal text-slate-500">วัน</span></div>
+                        <p class="text-xs text-slate-500 mt-1">ตั้งแต่เพาะเมล็ดถึงระยะปีกผีเสื้อ</p>
+                    </div>
+                </div>
+
+                <!-- Metric 2 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm border border-coffee-100 hover:shadow-md transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-coffee-700 uppercase tracking-wider">ระยะอนุบาลในถุง</span>
+                        <div class="w-9 h-9 rounded-xl bg-coffee-100 text-coffee-700 flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="text-2xl sm:text-3xl font-bold text-slate-800">6 - 8 <span class="text-sm font-normal text-slate-500">เดือน</span></div>
+                        <p class="text-xs text-slate-500 mt-1">จนกระทั่งมีใบจริง 6–8 คู่พร้อมปลูก</p>
+                    </div>
+                </div>
+
+                <!-- Metric 3 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm border border-amber-100 hover:shadow-md transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-amber-700 uppercase tracking-wider">ความชื้นเมล็ดพันธุ์</span>
+                        <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center">
+                            <i class="fa-solid fa-droplet"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="text-2xl sm:text-3xl font-bold text-slate-800">13 - 15%</div>
+                        <p class="text-xs text-slate-500 mt-1">ผึ่งลมในที่ร่ม ห้ามตากแดดจัด</p>
+                    </div>
+                </div>
+
+                <!-- Metric 4 -->
+                <div class="glass-card rounded-2xl p-5 shadow-sm border border-blue-100 hover:shadow-md transition-all">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-semibold text-blue-700 uppercase tracking-wider">การพรางแสง (Shed)</span>
+                        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <div class="text-2xl sm:text-3xl font-bold text-slate-800">60 - 70%</div>
+                        <p class="text-xs text-slate-500 mt-1">ระยะแรกเพาะ ค่อยๆ ปรับแสงก่อนปลูก</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Workflow Visual Overview Card -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                            <i class="fa-solid fa-network-wired text-forest-600 mr-2"></i>แผนผังกระบวนการเพาะกล้ากาแฟ (Workflow Overview)
+                        </h3>
+                        <p class="text-xs text-slate-500">สรุป 5 ขั้นตอนหลักตั้งแต่เมล็ดสดจนได้ต้นกล้าสมบูรณ์</p>
+                    </div>
+                    <span class="text-xs font-medium text-forest-700 bg-forest-50 px-3 py-1 rounded-full border border-forest-200 self-start sm:self-auto">
+                        5 Main Stages
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <!-- Step 1 Summary -->
+                    <div onclick="switchTab('stages'); showStageDetail(1);" class="cursor-pointer group bg-slate-50 hover:bg-forest-50/50 p-4 rounded-xl border border-slate-200/60 hover:border-forest-300 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-coffee-600 text-white font-bold flex items-center justify-center text-sm mb-3 group-hover:scale-110 transition-transform">1</div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-1 group-hover:text-forest-700">คัดเมล็ดพันธุ์</h4>
+                        <p class="text-xs text-slate-500 line-clamp-2">เก็บผลสุก Red Cherry หมักล้างเมือก คัดเมล็ดลอย</p>
+                    </div>
+                    <!-- Step 2 Summary -->
+                    <div onclick="switchTab('stages'); showStageDetail(2);" class="cursor-pointer group bg-slate-50 hover:bg-forest-50/50 p-4 rounded-xl border border-slate-200/60 hover:border-forest-300 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-amber-600 text-white font-bold flex items-center justify-center text-sm mb-3 group-hover:scale-110 transition-transform">2</div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-1 group-hover:text-forest-700">เตรียมแปลงทราย</h4>
+                        <p class="text-xs text-slate-500 line-clamp-2">แปลงยกระดับ ทรายหยาบหนา 15-20 ซม. ฆ่าเชื้อรา</p>
+                    </div>
+                    <!-- Step 3 Summary -->
+                    <div onclick="switchTab('stages'); showStageDetail(3);" class="cursor-pointer group bg-slate-50 hover:bg-forest-50/50 p-4 rounded-xl border border-slate-200/60 hover:border-forest-300 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-forest-600 text-white font-bold flex items-center justify-center text-sm mb-3 group-hover:scale-110 transition-transform">3</div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-1 group-hover:text-forest-700">ลงแปลงเพาะ</h4>
+                        <p class="text-xs text-slate-500 line-clamp-2">คว่ำรอยคอดลงทราย กลบทรายบาง 1 ซม. คลุมฟาง</p>
+                    </div>
+                    <!-- Step 4 Summary -->
+                    <div onclick="switchTab('stages'); showStageDetail(4);" class="cursor-pointer group bg-slate-50 hover:bg-forest-50/50 p-4 rounded-xl border border-slate-200/60 hover:border-forest-300 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold flex items-center justify-center text-sm mb-3 group-hover:scale-110 transition-transform">4</div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-1 group-hover:text-forest-700">ย้ายลงถุงเพาะ</h4>
+                        <p class="text-xs text-slate-500 line-clamp-2">ย้ายระยะปีกผีเสื้อ คัดรากแก้วตรง ห้ามรากพับ</p>
+                    </div>
+                    <!-- Step 5 Summary -->
+                    <div onclick="switchTab('stages'); showStageDetail(5);" class="cursor-pointer group bg-slate-50 hover:bg-forest-50/50 p-4 rounded-xl border border-slate-200/60 hover:border-forest-300 transition-all">
+                        <div class="w-8 h-8 rounded-lg bg-teal-600 text-white font-bold flex items-center justify-center text-sm mb-3 group-hover:scale-110 transition-transform">5</div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-1 group-hover:text-forest-700">อนุบาล & Hardening</h4>
+                        <p class="text-xs text-slate-500 line-clamp-2">ดูแล 6-8 เดือน ค่อยๆ ปรับแสงแดดก่อนลงแปลง</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Highlights Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Critical Warning Card -->
+                <div class="bg-gradient-to-br from-red-50 to-amber-50 rounded-2xl p-6 border border-red-200/70 shadow-sm relative overflow-hidden">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 rounded-2xl bg-red-500 text-white flex items-center justify-center text-xl shrink-0 shadow-md">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="font-bold text-base text-red-900">หัวใจสำคัญ: ป้องกัน "รากแก้วพับงอ" (Bent Root System)</h3>
+                            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                                ในขั้นตอนการย้ายต้นกล้าจากแปลงทรายลงถุงเพาะชำ ต้องใช้ไม้นำร่องเจาะรูให้ลึกพอ และ **ห้ามให้ปลายรากแก้วพับงอขึ้น** เป็นอันขาด เพราะจะทำให้ต้นกาแฟโตช้า แคระแกร็น และระบบรากหาอาหารไม่ได้เมื่อเติบโตในแปลงจริง
+                            </p>
+                            <span class="inline-block text-xs font-semibold text-red-700 bg-red-100 px-3 py-1 rounded-full">
+                                คัดทิ้งทันทีหากรากแก้วงอ หรือตัดแต่งขลิบปลายรากออก 1-2 ซม.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Soil Mixture Recipe Card -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <h3 class="font-bold text-slate-800 flex items-center">
+                            <i class="fa-solid fa-flask text-coffee-600 mr-2"></i>สูตรดินผสมสำหรับถุงเพาะชำ (Potting Mix Formula)
+                        </h3>
+                        <span class="text-xs bg-coffee-100 text-coffee-800 px-2.5 py-0.5 rounded-full font-medium">อัตราส่วน 2:1:1</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="bg-emerald-50/70 p-3 rounded-xl border border-emerald-100">
+                            <div class="text-lg font-extrabold text-emerald-800">2 ส่วน</div>
+                            <div class="text-xs font-medium text-slate-700 mt-0.5">ดินร่วนโปร่ง</div>
+                            <p class="text-[10px] text-slate-500 mt-1">ร่อนผ่านตะแกรง</p>
+                        </div>
+                        <div class="bg-amber-50/70 p-3 rounded-xl border border-amber-100">
+                            <div class="text-lg font-extrabold text-amber-800">1 ส่วน</div>
+                            <div class="text-xs font-medium text-slate-700 mt-0.5">ปุ๋ยคอกเก่า</div>
+                            <p class="text-[10px] text-slate-500 mt-1">หมักขี้วัวย่อยสลายแล้ว</p>
+                        </div>
+                        <div class="bg-slate-100/80 p-3 rounded-xl border border-slate-200">
+                            <div class="text-lg font-extrabold text-slate-700">1 ส่วน</div>
+                            <div class="text-xs font-medium text-slate-700 mt-0.5">แกลบดำ / แกลบสด</div>
+                            <p class="text-[10px] text-slate-500 mt-1">ช่วยความโปร่งระบายน้ำ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 2: DETAILED 5 STAGES ================= -->
+        <section id="tab-stages" class="tab-content hidden space-y-6">
+            
+            <!-- Stage Selector Header Buttons -->
+            <div class="bg-white p-2 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap gap-2 justify-center sm:justify-start">
+                <button onclick="showStageDetail(1)" id="stage-tab-1" class="stage-select-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all bg-forest-700 text-white shadow-sm">
+                    1. คัดเลือก & เตรียมเมล็ด
+                </button>
+                <button onclick="showStageDetail(2)" id="stage-tab-2" class="stage-select-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:bg-slate-100">
+                    2. เตรียมแปลงเพาะ
+                </button>
+                <button onclick="showStageDetail(3)" id="stage-tab-3" class="stage-select-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:bg-slate-100">
+                    3. การหยอดเพาะ
+                </button>
+                <button onclick="showStageDetail(4)" id="stage-tab-4" class="stage-select-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:bg-slate-100">
+                    4. ย้ายลงถุงเพาะ
+                </button>
+                <button onclick="showStageDetail(5)" id="stage-tab-5" class="stage-select-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:bg-slate-100">
+                    5. การอนุบาลกล้า
+                </button>
+            </div>
+
+            <!-- Stage 1 Content Block -->
+            <div id="stage-content-1" class="stage-pane space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <div class="lg:col-span-5 relative min-h-[260px] lg:min-h-full">
+                            <img src="https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Red Cherry Coffee" 
+                                 class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                <span class="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    Stage 01 : Red Cherry & Parchment
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 p-6 sm:p-8 space-y-4">
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">1. การคัดเลือกและการเตรียมเมล็ดพันธุ์ (Seed Selection & Preparation)</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                คุณภาพของต้นกล้าขึ้นอยู่กับเมล็ดแม่พันธุ์ การคัดเลือกต้องทำอย่างพิถีพิถันเพื่อให้อัตราการงอกสูงและได้ต้นกล้าที่แข็งแรงปราศจากโรค
+                            </p>
+                            
+                            <div class="space-y-3 pt-2">
+                                <div class="flex items-start space-x-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                    <div class="w-7 h-7 rounded-lg bg-coffee-100 text-coffee-800 font-bold flex items-center justify-center shrink-0 text-sm">1.1</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">คัดจากต้นแม่พันธุ์สมบูรณ์</h4>
+                                        <p class="text-xs text-slate-500">เลือกเก็บผลสุกเต็มที่ (Red Cherry) จากต้นแม่พันธุ์อายุ 7–8 ปีขึ้นไป โดยเลือกผลบริเวณกลางลำต้น</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                    <div class="w-7 h-7 rounded-lg bg-coffee-100 text-coffee-800 font-bold flex items-center justify-center shrink-0 text-sm">1.2</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">ปอกเปลือกสด (Pulping)</h4>
+                                        <p class="text-xs text-slate-500">ปอกเปลือกนอกออกด้วยความระมัดระวังด้วยมือหรือเครื่องปอก เพื่อไม่ให้กะลาด้านในบอบช้ำ</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                    <div class="w-7 h-7 rounded-lg bg-coffee-100 text-coffee-800 font-bold flex items-center justify-center shrink-0 text-sm">1.3</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">คัดเมล็ดลอย (Floating Test)</h4>
+                                        <p class="text-xs text-slate-500">นำเมล็ดกะลาไปแช่น้ำ ช้อนเมล็ดที่ลอยออก (เมล็ดลีบ ฝี แมลงทำลาย) เลือกใช้เฉพาะเมล็ดที่จมน้ำเท่านั้น</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-3 bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                                    <div class="w-7 h-7 rounded-lg bg-coffee-100 text-coffee-800 font-bold flex items-center justify-center shrink-0 text-sm">1.4</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">กำจัดเมือกและผึ่งแห้ง</h4>
+                                        <p class="text-xs text-slate-500">หมักน้ำ 24–48 ชั่วโมงเพื่อล้างเมือกออก ล้างน้ำสะอาด แล้วผึ่งลมในที่ร่ม (ห้ามตากแดดจัด) ให้ความชื้นเหลือ 13–15%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2 Content Block -->
+            <div id="stage-content-2" class="stage-pane hidden space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <div class="lg:col-span-5 relative min-h-[260px] lg:min-h-full">
+                            <img src="https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Seedbed Sand Preparation" 
+                                 class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    Stage 02 : Sand Seedbed
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 p-6 sm:p-8 space-y-4">
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">2. การเตรียมแปลงเพาะอนุบาล (Seedbed Preparation)</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                แปลงเพาะที่ดีช่วยลดความเสี่ยงจากโรครากเน่าและช่วยให้ถอนย้ายต้นกล้าได้ง่ายโดยรากไม่ขาดเสียหาย
+                            </p>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                                <div class="bg-emerald-50/60 p-4 rounded-xl border border-emerald-100">
+                                    <div class="text-forest-700 font-bold text-sm mb-1">
+                                        <i class="fa-solid fa-layer-group mr-1.5"></i>โครงสร้างแปลง
+                                    </div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        ยกกระบะด้วยไม้ อิฐบล็อก หรือโครงสร้างยกสูง กว้าง 1 เมตร ความยาวตามเหมาะสม ตั้งในพื้นที่ระบายน้ำดี อยู่ใต้โรงเรือนพรางแสง (Shed) 60–70%
+                                    </p>
+                                </div>
+
+                                <div class="bg-amber-50/60 p-4 rounded-xl border border-amber-100">
+                                    <div class="text-amber-800 font-bold text-sm mb-1">
+                                        <i class="fa-solid fa-cubes-stacked mr-1.5"></i>วัสดุเพาะ 2 ชั้น
+                                    </div>
+                                    <p class="text-xs text-slate-600 leading-relaxed">
+                                        <strong class="text-slate-700">ชั้นล่าง:</strong> หินกรวด/ลูกรัง หนา 5 ซม. ระบายน้ำ<br>
+                                        <strong class="text-slate-700">ชั้นบน:</strong> ทรายหยาบสะอาด (ทรายใหม่) หนา 15–20 ซม.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-1">
+                                <h4 class="font-bold text-sm text-slate-800 flex items-center">
+                                    <i class="fa-solid fa-shield-halved text-emerald-600 mr-2"></i>การฆ่าเชื้อวัสดุเพาะก่อนเพาะ
+                                </h4>
+                                <p class="text-xs text-slate-600">
+                                    รดด้วยสารป้องกันกำจัดเชื้อรา (เช่น เมทาแลกซิล) หรือรดน้ำร้อนลวกแปลงทรายทิ้งไว้ก่อนเพาะ 1–2 วัน เพื่อกำจัดเชื้อราสาเหตุโรคเน่าคอดิน (Damping-off)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3 Content Block -->
+            <div id="stage-content-3" class="stage-pane hidden space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <div class="lg:col-span-5 relative min-h-[260px] lg:min-h-full">
+                            <img src="https://images.unsplash.com/photo-1525498128493-380d1990a112?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Sowing Coffee Seeds" 
+                                 class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                <span class="bg-forest-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    Stage 03 : Sowing Technique
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 p-6 sm:p-8 space-y-4">
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">3. ขั้นตอนการลงแปลงเพาะและการดูแลช่วงงอก</h3>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-forest-100 text-forest-700 flex items-center justify-center font-bold text-sm shrink-0">1</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">การวางเมล็ดลงแปลง (ระยะห่าง 2–3 ซม.)</h4>
+                                        <p class="text-xs text-slate-600 mt-0.5">
+                                            ทำร่องตื้นๆ บนแปลงทราย กดเมล็ดกาแฟลงในทราย **วางด้านร่องรอยคอด (ด้านผ่า) คว่ำลงดิน** เพื่อให้รากแก้วพุ่งลงดินได้ง่าย ลำต้นไม่คดงอ
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-forest-100 text-forest-700 flex items-center justify-center font-bold text-sm shrink-0">2</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">การกลบและคลุมแปลง</h4>
+                                        <p class="text-xs text-slate-600 mt-0.5">
+                                            โรยทรายหยาบหรือขุยมะพร้าวร่อนกลบบางๆ หนาประมาณ 0.5–1 ซม. จากนั้นใช้ฟางข้าวแห้งหรือตาข่ายซาแลนคลุมทับหน้าแปลงเพื่อรักษาความชื้น
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-forest-100 text-forest-700 flex items-center justify-center font-bold text-sm shrink-0">3</div>
+                                    <div>
+                                        <h4 class="font-bold text-sm text-slate-800">การรดน้ำสม่ำเสมอ</h4>
+                                        <p class="text-xs text-slate-600 mt-0.5">
+                                            รดน้ำให้ชุ่มสม่ำเสมอทุกวัน (เช้า-เย็น) ด้วยหัวสเปรย์ฝอย ระวังอย่าให้แปลงแห้งหรือแฉะขังจนทรายแน่นแข็ง
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 4 Content Block -->
+            <div id="stage-content-4" class="stage-pane hidden space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <div class="lg:col-span-5 relative min-h-[260px] lg:min-h-full">
+                            <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Potting Coffee Seedlings" 
+                                 class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    Stage 04 : Potting & Transplanting
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 p-6 sm:p-8 space-y-4">
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">4. การย้ายต้นกล้าลงถุงเพาะชำ (Transplanting)</h3>
+                            
+                            <div class="space-y-3 text-xs sm:text-sm text-slate-600">
+                                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                    <strong class="text-slate-800 font-bold block mb-1">ขนาดถุงเพาะชำ:</strong>
+                                    ใช้ถุงพลาสติกดำขนาด 4x6 นิ้ว หรือ 5x8 นิ้ว เจาะรูระบายน้ำก้นถุงและด้านข้าง
+                                </div>
+
+                                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                    <strong class="text-slate-800 font-bold block mb-1">ขั้นตอนการถอนและตัดแต่งราก:</strong>
+                                    <ol class="list-decimal pl-4 space-y-1 mt-1 text-xs">
+                                        <li>รดน้ำแปลงทรายให้แฉะ อ่อนตัว ค่อยๆ ถอนต้นกล้าระยะปีกผีเสื้อขึ้นมา</li>
+                                        <li><strong>คัดทิ้งต้นคดงอ:</strong> คัดต้นที่มีรากแก้วงอ ราก 2 แฉก ทิ้ง เลือกเฉพาะต้นรากแก้วเหยียดตรง</li>
+                                        <li><strong>ขลิบปลายราก:</strong> ใช้กรรไกรคมๆ เล็มปลายรากแก้วออก 1–2 ซม. เพื่อกระตุ้นรากแขนง</li>
+                                    </ol>
+                                </div>
+
+                                <div class="bg-amber-50 p-3.5 rounded-xl border border-amber-200 text-amber-900">
+                                    <strong class="font-bold block mb-1"><i class="fa-solid fa-hand-point-right mr-1"></i>ข้อควรระวังสำคัญขณะลงถุง:</strong>
+                                    ใช้ไม้นำร่องเจาะรูดินตรงกลางให้ลึกเท่าความยาวราก หย่อนรากตรงๆ **ห้ามปลายรากแก้วพับงอขึ้น** กดดินโคนต้นให้แน่น แล้วรดน้ำทันที
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 5 Content Block -->
+            <div id="stage-content-5" class="stage-pane hidden space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-12">
+                        <div class="lg:col-span-5 relative min-h-[260px] lg:min-h-full">
+                            <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1000&auto=format&fit=crop" 
+                                 alt="Coffee Nursery Hardening" 
+                                 class="absolute inset-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex items-end p-6">
+                                <span class="bg-teal-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                    Stage 05 : Nursery & Hardening
+                                </span>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-7 p-6 sm:p-8 space-y-4">
+                            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">5. การอนุบาลและการปรับสภาพกล้าก่อนปลูก (Hardening)</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">
+                                การดูแลต้นกล้าในถุงเพาะชำใช้เวลา 6–8 เดือน เพื่อสร้างระบบรากและลำต้นที่แข็งแรงพร้อมเผชิญสภาพอากาศแปลงจริง
+                            </p>
+                            
+                            <div class="space-y-3 pt-2">
+                                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                    <h4 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-sun text-amber-500 mr-2"></i>การจัดการแสงตามอายุ</h4>
+                                    <ul class="text-xs text-slate-600 space-y-1 pl-5 list-disc">
+                                        <li><strong>เดือนที่ 1–3:</strong> พรางแสง 60–70% (ซาแลนบังแดด)</li>
+                                        <li><strong>เดือนที่ 4–5:</strong> ลดการพรางแสงเหลือ 40–50%</li>
+                                        <li><strong>เดือนที่ 6 เป็นต้นไป:</strong> เปิดรับแดดจัด (Hardening) เพื่อปรับตัวก่อนปลูก</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                                    <h4 class="font-bold text-sm text-slate-800 mb-1"><i class="fa-solid fa-faucet-drip text-blue-500 mr-2"></i>การให้น้ำและปุ๋ยบำรุง</h4>
+                                    <p class="text-xs text-slate-600">
+                                        รดน้ำวันละ 1 ครั้งช่วงเช้า เมื่อมีใบจริง 2–3 คู่ เสริมด้วยปุ๋ยสูตรเสมอ (15-15-15) ละลายน้ำรดจางๆ ทุก 15-20 วัน หรือใส่ปุ๋ยอินทรีย์ละลายช้า
+                                    </p>
+                                </div>
+
+                                <div class="bg-emerald-50 p-3.5 rounded-xl border border-emerald-200 text-emerald-900">
+                                    <h4 class="font-bold text-sm mb-0.5"><i class="fa-solid fa-check-double mr-1"></i>เกณฑ์ความพร้อมในการนำไปปลูกลงแปลง</h4>
+                                    <p class="text-xs">
+                                        เลี้ยงจนมีใบจริง 6–8 คู่ ความสูงลำต้นประมาณ 30–40 ซม. ลำต้นแข็งแรงตั้งตรง ระบบรากแน่นเต็มถุง
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= SECTION 3: GERMINATION TIMELINE ================= -->
+        <section id="tab-timeline" class="tab-content hidden space-y-6">
+            
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center">
+                        <i class="fa-solid fa-clock-rotate-left text-forest-600 mr-2"></i>ไทม์ไลน์ระยะการเติบโตและการงอก (60-90 วัน)
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-1">คลิกที่ระยะเพื่อดูรายละเอียดคำแนะนำในการดูแล</p>
+                </div>
+
+                <!-- Interactive Timeline Step Card Flow -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+                    
+                    <!-- Stage 1 Timeline Card -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border-2 border-amber-200 hover:border-amber-400 transition-all space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">30 – 45 วัน</span>
+                            <span class="text-2xl font-black text-amber-300">01</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base">1. ระยะหัวไม้ขีด (Soldier Stage)</h4>
+                        <div class="w-full h-32 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?q=80&w=600&auto=format&fit=crop" 
+                                 alt="Soldier Stage Sprout" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1.5 pt-1">
+                            <li><i class="fa-solid fa-circle-dot text-amber-500 mr-1.5 text-[10px]"></i>เมล็ดดันตัวขึ้นมาจากทรายทอดตัวตรง</li>
+                            <li><i class="fa-solid fa-circle-dot text-amber-500 mr-1.5 text-[10px]"></i>ยังมีกะลาติดอยู่ด้านบนเหมือนหัวไม้ขีด</li>
+                            <li class="font-medium text-amber-900 pt-1"><i class="fa-solid fa-hand text-amber-600 mr-1"></i>เปิดฟางหรือวัสดุคลุมหน้าแปลงออก เพื่อให้ยอดตั้งตรง</li>
+                        </ul>
+                    </div>
+
+                    <!-- Stage 2 Timeline Card -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border-2 border-coffee-200 hover:border-coffee-400 transition-all space-y-3 relative">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-coffee-700 bg-coffee-100 px-3 py-1 rounded-full">45 – 60 วัน</span>
+                            <span class="text-2xl font-black text-coffee-300">02</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base">2. ระยะหมวกกันน็อก (Helmet Stage)</h4>
+                        <div class="w-full h-32 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1592417817098-8f3d6eb231fc?q=80&w=600&auto=format&fit=crop" 
+                                 alt="Helmet Stage Coffee Sprout" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1.5 pt-1">
+                            <li><i class="fa-solid fa-circle-dot text-coffee-500 mr-1.5 text-[10px]"></i>ลำต้นยืดสูงขึ้น เปลือกกะลาเริ่มปริแตก</li>
+                            <li><i class="fa-solid fa-circle-dot text-coffee-500 mr-1.5 text-[10px]"></i>พร้อมที่จะหลุดออกจากใบเลี้ยง</li>
+                            <li class="font-medium text-coffee-900 pt-1"><i class="fa-solid fa-shield text-coffee-600 mr-1"></i>รักษาระดับความชื้น ป้องกันแมลงกัดยอดอ่อน</li>
+                        </ul>
+                    </div>
+
+                    <!-- Stage 3 Timeline Card -->
+                    <div class="bg-slate-50 rounded-2xl p-5 border-2 border-forest-300 hover:border-forest-500 transition-all space-y-3 relative shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-forest-700 bg-forest-100 px-3 py-1 rounded-full">60 – 75 วัน</span>
+                            <span class="text-2xl font-black text-forest-300">03</span>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base">3. ระยะปีกผีเสื้อ (Butterfly Stage)</h4>
+                        <div class="w-full h-32 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?q=80&w=600&auto=format&fit=crop" 
+                                 alt="Butterfly Stage Coffee Sprout" 
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <ul class="text-xs text-slate-600 space-y-1.5 pt-1">
+                            <li><i class="fa-solid fa-circle-dot text-forest-500 mr-1.5 text-[10px]"></i>เปลือกกะลาหลุดออกหมด</li>
+                            <li><i class="fa-solid fa-circle-dot text-forest-500 mr-1.5 text-[10px]"></i>แผ่ใบเลี้ยงคู่แรกสีเขียวสดคล้ายปีกผีเสื้อ</li>
+                            <li class="font-bold text-emerald-700 bg-emerald-100 p-1.5 rounded-lg text-center mt-1">
+                                <i class="fa-solid fa-star mr-1"></i>ระยะที่เหมาะสมที่สุดในการย้ายลงถุง!
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Progress Bar visual representation -->
+                <div class="bg-slate-100 p-4 rounded-xl space-y-2">
+                    <div class="flex justify-between text-xs font-semibold text-slate-600">
+                        <span>เริ่มต้นเพาะเมล็ด (Day 0)</span>
+                        <span>ระยะปีกผีเสื้อ (Day 60-75)</span>
+                        <span>ลงแปลงปลูก (Month 6-8)</span>
+                    </div>
+                    <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden flex">
+                        <div class="bg-amber-500 h-full w-1/3" title="ระยะทรายงอก 0-45 วัน"></div>
+                        <div class="bg-coffee-500 h-full w-1/3" title="ระยะสลัดกะลา 45-75 วัน"></div>
+                        <div class="bg-forest-600 h-full w-1/3" title="อนุบาลในถุง 6-8 เดือน"></div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= SECTION 4: CALCULATOR ================= -->
+        <section id="tab-calculator" class="tab-content hidden space-y-6">
+            
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-800 flex items-center">
+                        <i class="fa-solid fa-calculator text-coffee-600 mr-2"></i>เครื่องมือคำนวณวัสดุอุปกรณ์เพาะกล้ากาแฟ
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-1">ระบุจำนวนต้นกล้ากาแฟที่ต้องการ เพื่อคำนวณน้ำหนักเมล็ด ขนาดแปลงทราย และปริมาณดินผสม</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <!-- Calculator Input Panel -->
+                    <div class="lg:col-span-5 bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">
+                                จำนวนต้นกล้าที่ต้องการ (ต้น):
+                            </label>
+                            <input type="number" id="calc-target" value="1000" min="100" step="100" oninput="calculateNurseryMaterials()" 
+                                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-forest-500 focus:border-forest-500 text-lg font-bold text-slate-800 bg-white">
+                            <p class="text-[11px] text-slate-500 mt-1">*คิดเผื่ออัตราการคัดทิ้ง / อัตรางอก 85% แล้ว</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">
+                                สายพันธุ์กาแฟ:
+                            </label>
+                            <select id="calc-variety" onchange="calculateNurseryMaterials()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-medium">
+                                <option value="arabica">อาราบิก้า (Arabica) ~ 3,500-4,000 เมล็ด/กก.</option>
+                                <option value="robusta">โรบัสต้า (Robusta) ~ 2,500-3,000 เมล็ด/กก.</option>
+                            </select>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-200">
+                            <button onclick="calculateNurseryMaterials()" class="w-full py-3 bg-forest-700 hover:bg-forest-800 text-white font-bold rounded-xl shadow-md transition-all">
+                                <i class="fa-solid fa-calculator mr-2"></i>คำนวณผลลัพธ์
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Calculator Results Display -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Result 1 -->
+                        <div class="bg-forest-50 p-5 rounded-2xl border border-forest-100 flex flex-col justify-between">
+                            <div class="text-xs font-semibold text-forest-700 uppercase">ประมาณการเมล็ดพันธุ์กาลาที่ต้องใช้</div>
+                            <div class="my-3">
+                                <span id="res-seeds-kg" class="text-3xl font-extrabold text-forest-900">0.35</span>
+                                <span class="text-sm text-forest-700 font-medium"> กิโลกรัม</span>
+                            </div>
+                            <p class="text-[11px] text-forest-600" id="res-seeds-count">(คิดเป็นประมาณ 1,180 เมล็ด)</p>
+                        </div>
+
+                        <!-- Result 2 -->
+                        <div class="bg-amber-50 p-5 rounded-2xl border border-amber-100 flex flex-col justify-between">
+                            <div class="text-xs font-semibold text-amber-800 uppercase">ขนาดแปลงทรายหยาบ (กว้าง 1 ม.)</div>
+                            <div class="my-3">
+                                <span id="res-bed-length" class="text-3xl font-extrabold text-amber-900">1.2</span>
+                                <span class="text-sm text-amber-800 font-medium"> เมตร</span>
+                            </div>
+                            <p class="text-[11px] text-amber-700">คำนวณจากความหนาแน่น ~1,000 เมล็ด/ตร.ม.</p>
+                        </div>
+
+                        <!-- Result 3 -->
+                        <div class="bg-coffee-50 p-5 rounded-2xl border border-coffee-100 flex flex-col justify-between">
+                            <div class="text-xs font-semibold text-coffee-800 uppercase">ถุงเพาะชำ (ขนาด 4x6 นิ้ว)</div>
+                            <div class="my-3">
+                                <span id="res-bags-count" class="text-3xl font-extrabold text-coffee-900">1,050</span>
+                                <span class="text-sm text-coffee-800 font-medium"> ใบ</span>
+                            </div>
+                            <p class="text-[11px] text-coffee-700">*รวมสำรองเสียหาย 5%</p>
+                        </div>
+
+                        <!-- Result 4 -->
+                        <div class="bg-slate-100 p-5 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                            <div class="text-xs font-semibold text-slate-700 uppercase">ปริมาณดินผสมทั้งหมด</div>
+                            <div class="my-3">
+                                <span id="res-soil-volume" class="text-3xl font-extrabold text-slate-800">0.85</span>
+                                <span class="text-sm text-slate-600 font-medium"> ลูกบาศก์เมตร (คิว)</span>
+                            </div>
+                            <p class="text-[11px] text-slate-500">ดิน 2 ส่วน : ปุ๋ยคอก 1 ส่วน : แกลบ 1 ส่วน</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= SECTION 5: CHECKLIST & DO'S/DON'TS ================= -->
+        <section id="tab-checklist" class="tab-content hidden space-y-6">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Interactive Checklist (Left 7 Cols) -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-5">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <i class="fa-solid fa-list-check text-forest-600 mr-2"></i>รายการเช็กความพร้อม (Interactive Propagation Checklist)
+                            </h3>
+                            <p class="text-xs text-slate-500">ติ๊กเครื่องหมายเมื่อดำเนินการสำเร็จในแต่ละขั้นตอน</p>
+                        </div>
+                        <span id="checklist-progress" class="text-xs font-bold text-forest-700 bg-forest-50 px-3 py-1 rounded-full border border-forest-200">
+                            0 / 6 ข้อ
+                        </span>
+                    </div>
+
+                    <div class="space-y-3" id="checklist-container">
+                        <!-- Check Item 1 -->
+                        <label class="flex items-start space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 w-4 h-4 text-forest-600 rounded focus:ring-forest-500">
+                            <span class="text-xs sm:text-sm text-slate-700">
+                                <strong>คัดเมล็ดจมน้ำ:</strong> ผ่านการทำ Floating Test และหมักล้างเมือกผึ่งแห้งชื้น 13-15% แล้ว
+                            </span>
+                        </label>
+
+                        <!-- Check Item 2 -->
+                        <label class="flex items-start space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 w-4 h-4 text-forest-600 rounded focus:ring-forest-500">
+                            <span class="text-xs sm:text-sm text-slate-700">
+                                <strong>แปลงทรายฆ่าเชื้อ:</strong> ทรายหยาบสะอาดหนา 15-20 ซม. ราดสารป้องกันเชื้อราล่วงหน้า 1-2 วัน
+                            </span>
+                        </label>
+
+                        <!-- Check Item 3 -->
+                        <label class="flex items-start space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 w-4 h-4 text-forest-600 rounded focus:ring-forest-500">
+                            <span class="text-xs sm:text-sm text-slate-700">
+                                <strong>วางเมล็ดถูกทิศ:</strong> คว่ำรอยคอดผ่าลงทราย กลบทรายบาง 0.5-1 ซม. คลุมฟางแห้ง
+                            </span>
+                        </label>
+
+                        <!-- Check Item 4 -->
+                        <label class="flex items-start space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 w-4 h-4 text-forest-600 rounded focus:ring-forest-500">
+                            <span class="text-xs sm:text-sm text-slate-700">
+                                <strong>ย้ายระยะปีกผีเสื้อ:</strong> ถอนย้ายกล้าช่วงเปลือกกะลาหลุดและมีใบเลี้ยงคู่แรก
+                            </span>
+                        </label>
+
+                        <!-- Check Item 5 -->
+                        <label class="flex items-start space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 w-4 h-4 text-forest-600 rounded focus:ring-forest-500">
+                            <span class="text-xs sm:text-sm text-slate-700">
+                                <strong>คัดและตัดรากแก้ว:</strong> คัดต้นรากงอทิ้ง ขลิบปลายราก 1-2 ซม. เสียบลงถุงโดยรากไม่พับ
+                            </span>
+                        </label>
+
+                        <!-- Check Item 6 -->
+                        <label class="flex items-start space-x-3 p-3 rounded-xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-all">
+                            <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item mt-1 w-4 h-4 text-forest-600 rounded focus:ring-forest-500">
+                            <span class="text-xs sm:text-sm text-slate-700">
+                                <strong>Hardening ก่อนปลูก:</strong> ลดการพรางแสงจนรับแดดจัดในเดือนที่ 6-8 ก่อนนำลงแปลง
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Do's and Don'ts Guide (Right 5 Cols) -->
+                <div class="lg:col-span-5 space-y-4">
+                    <!-- Do's -->
+                    <div class="bg-emerald-50/80 p-5 rounded-2xl border border-emerald-200 space-y-3">
+                        <h4 class="font-bold text-emerald-900 text-sm flex items-center">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-base mr-2"></i>สิ่งที่ "ควรทำ" (DO'S)
+                        </h4>
+                        <ul class="text-xs text-emerald-800 space-y-2 pl-2">
+                            <li class="flex items-start"><i class="fa-solid fa-check text-emerald-600 mr-2 mt-0.5"></i>ใช้ทรายหยาบใหม่สะอาดทุกครั้งในการเพาะเพื่อระบายน้ำดี</li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-emerald-600 mr-2 mt-0.5"></i>รดน้ำตอนเช้าสม่ำเสมอ เพื่อไม่ให้หน้าแปลงแห้ง</li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-emerald-600 mr-2 mt-0.5"></i>ใช้ไม้นำร่องเจาะรูถุงดินก่อนแทรกรากทุกครั้ง</li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-emerald-600 mr-2 mt-0.5"></i>ขลิบตัดปลายรากแก้วนิดหน่อยเพื่อกระตุ้นรากแขนง</li>
+                        </ul>
+                    </div>
+
+                    <!-- Don'ts -->
+                    <div class="bg-red-50/80 p-5 rounded-2xl border border-red-200 space-y-3">
+                        <h4 class="font-bold text-red-900 text-sm flex items-center">
+                            <i class="fa-solid fa-circle-xmark text-red-600 text-base mr-2"></i>สิ่งที่ "ห้ามทำ" (DON'TS)
+                        </h4>
+                        <ul class="text-xs text-red-800 space-y-2 pl-2">
+                            <li class="flex items-start"><i class="fa-solid fa-xmark text-red-600 mr-2 mt-0.5"></i><strong>ห้ามนำเมล็ดกะลาไปตากแดดจัด</strong> (จะทำลายคembryo ข้างใน)</li>
+                            <li class="flex items-start"><i class="fa-solid fa-xmark text-red-600 mr-2 mt-0.5"></i><strong>ห้ามย้ายกล้าโดยให้ปลายรากแก้วงอขึ้น</strong> ในถุงเพาะ</li>
+                            <li class="flex items-start"><i class="fa-solid fa-xmark text-red-600 mr-2 mt-0.5"></i><strong>ห้ามใช้ดินค้างปีหรือดินแน่นแข็ง</strong> ในการกรอกถุงเพาะ</li>
+                            <li class="flex items-start"><i class="fa-solid fa-xmark text-red-600 mr-2 mt-0.5"></i><strong>ห้ามนำกล้าจากร่มไปปลูกแดดจัดทันที</strong> โดยไม่ทำ Hardening</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 border-t border-slate-800 mt-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="font-medium text-slate-300">Coffee Seed Germination & Cultivation Dashboard</p>
+            <p class="text-slate-500">คู่มือสรุปขั้นตอนเทคนิคการเพาะเมล็ดกาแฟเพื่ออัตราการรอดและคุณภาพสูงสุด</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Switch Active Tabs
+        function switchTab(tabId) {
+            // Hide all tab content
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            // Remove active classes from buttons
+            const navBtns = document.querySelectorAll('.nav-btn, .mobile-nav-btn');
+            navBtns.forEach(btn => {
+                btn.classList.remove('active-tab');
+                btn.classList.add('text-emerald-100');
+            });
+
+            // Show current selected tab
+            const targetTab = document.getElementById('tab-' + tabId);
+            if (targetTab) {
+                targetTab.classList.remove('hidden');
+            }
+
+            // Highlight desktop nav button
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.add('active-tab');
+                activeNav.classList.remove('text-emerald-100');
+            }
+
+            // Highlight mobile nav button
+            const activeMobileNav = document.getElementById('mobile-nav-' + tabId);
+            if (activeMobileNav) {
+                activeMobileNav.classList.add('active-tab');
+                activeMobileNav.classList.remove('text-emerald-100');
+            }
+        }
+
+        // Show Specific Stage Detail in Stage Tab
+        function showStageDetail(stageNum) {
+            // Hide all stage panes
+            const stagePanes = document.querySelectorAll('.stage-pane');
+            stagePanes.forEach(pane => pane.classList.add('hidden'));
+
+            // Reset stage buttons
+            const stageBtns = document.querySelectorAll('.stage-select-btn');
+            stageBtns.forEach(btn => {
+                btn.classList.remove('bg-forest-700', 'text-white', 'shadow-sm');
+                btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+            });
+
+            // Show selected stage pane
+            const targetPane = document.getElementById('stage-content-' + stageNum);
+            if (targetPane) {
+                targetPane.classList.remove('hidden');
+            }
+
+            // Highlight selected button
+            const activeBtn = document.getElementById('stage-tab-' + stageNum);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-forest-700', 'text-white', 'shadow-sm');
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+            }
+        }
+
+        // Nursery Material Calculator Logic
+        function calculateNurseryMaterials() {
+            const targetCount = parseFloat(document.getElementById('calc-target').value) || 0;
+            const variety = document.getElementById('calc-variety').value;
+
+            // Seeds count adjustment (considering 85% germination rate)
+            const requiredSeeds = Math.round(targetCount / 0.85);
+
+            // Seeds per kg estimation
+            const seedsPerKg = (variety === 'arabica') ? 3750 : 2750;
+            const seedsKg = (requiredSeeds / seedsPerKg).toFixed(2);
+
+            // Seedbed length (Width fixed to 1m, ~1000 seeds per sq meter)
+            const bedAreaSqM = requiredSeeds / 1000;
+            const bedLength = Math.max(1.0, bedAreaSqM).toFixed(1);
+
+            // Bags needed (+5% spare)
+            const bagsCount = Math.round(targetCount * 1.05);
+
+            // Volume of soil (Roughly 0.8 liters per 4x6 bag = 0.0008 m3)
+            const totalSoilVolume = (bagsCount * 0.0008).toFixed(2);
+
+            // Render Output
+            document.getElementById('res-seeds-kg').innerText = seedsKg;
+            document.getElementById('res-seeds-count').innerText = `(คิดเป็นประมาณ ${requiredSeeds.toLocaleString()} เมล็ด)`;
+            document.getElementById('res-bed-length').innerText = bedLength;
+            document.getElementById('res-bags-count').innerText = bagsCount.toLocaleString();
+            document.getElementById('res-soil-volume').innerText = totalSoilVolume;
+        }
+
+        // Update Checklist Progress
+        function updateChecklistProgress() {
+            const checkboxes = document.querySelectorAll('.chk-item');
+            let checkedCount = 0;
+            checkboxes.forEach(chk => {
+                if (chk.checked) checkedCount++;
+            });
+
+            const badge = document.getElementById('checklist-progress');
+            badge.innerText = `${checkedCount} / ${checkboxes.length} ข้อ`;
+
+            if (checkedCount === checkboxes.length) {
+                badge.className = "text-xs font-bold text-white bg-emerald-600 px-3 py-1 rounded-full animate-bounce";
+            } else {
+                badge.className = "text-xs font-bold text-forest-700 bg-forest-50 px-3 py-1 rounded-full border border-forest-200";
+            }
+        }
+
+        // Initial Setup on Window Load
+        window.onload = function() {
+            calculateNurseryMaterials();
+            updateChecklistProgress();
+        };
+    </script>
+</body>
+</html>
